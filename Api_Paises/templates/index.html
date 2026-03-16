@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Países de Europa</title>
+</head>
+<body>
+
+<h2>Lista de Países</h2>
+
+<ul>
+{% for pais in paises %}
+    <li>
+        <a href="{{ pais.googleMaps }}" target="_blank">
+            {{ pais.nombre }}
+        </a>
+    </li>
+{% endfor %}
+</ul>
+
+</body>
+</html>
