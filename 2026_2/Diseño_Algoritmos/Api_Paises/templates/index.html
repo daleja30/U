@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Países de Europa</title>
+
+
+    <style>
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background-color: #f2f2f2;
+
+            margin: 0;
+
+            padding: 0;
+        }
+
+
+        .contenedor {
+
+            width: 80%;
+
+            max-width: 900px;
+
+            margin: 40px auto;
+
+            background-color: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 0 10px
+                rgba(0, 0, 0, 0.15);
+        }
+
+
+        h1 {
+
+            text-align: center;
+
+            color: #333;
+        }
+
+
+        .descripcion {
+
+            text-align: center;
+
+            color: #666;
+        }
+
+
+        form {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin: 30px 0;
+        }
+
+
+        input {
+
+            flex: 1;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 5px;
+
+            font-size: 16px;
+        }
+
+
+        button {
+
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            background-color: #333;
+
+            color: white;
+
+            cursor: pointer;
+        }
+
+
+        button:hover {
+
+            background-color: #555;
+        }
+
+
+        .pais {
+
+            padding: 12px;
+
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        .pais a {
+
+            color: #1565c0;
+
+            text-decoration: none;
+
+            font-size: 18px;
+        }
+
+
+        .pais a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        .resultado {
+
+            margin-top: 20px;
+
+            padding: 20px;
+
+            background-color: #e8f5e9;
+
+            border: 1px solid #a5d6a7;
+
+            border-radius: 8px;
+        }
+
+
+        .no-encontrado {
+
+            margin-top: 20px;
+
+            padding: 20px;
+
+            background-color: #ffebee;
+
+            border: 1px solid #ef9a9a;
+
+            border-radius: 8px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="contenedor">
+
+
+    <h1>
+        🌍 Países de Europa
+    </h1>
+
+
+    <p class="descripcion">
+
+        Haz clic sobre el nombre de un país
+        para consultar su información.
+
+    </p>
+
+
+    <!-- ========================================= -->
+    <!-- BÚSQUEDA -->
+    <!-- ========================================= -->
+
+    <form method="POST">
+
+        <input
+            type="text"
+            name="pais"
+            placeholder="Ejemplo: España"
+            required
+        >
+
+        <button type="submit">
+            Buscar
+        </button>
+
+    </form>
+
+
+    <!-- ========================================= -->
+    <!-- RESULTADO DE BÚSQUEDA BINARIA -->
+    <!-- ========================================= -->
+
+    {% if resultado %}
+
+        <div class="resultado">
+
+            <h2>
+                País encontrado
+            </h2>
+
+            <p>
+
+                <strong>
+                    País:
+                </strong>
+
+                <a
+                    href="/pais/{{ resultado.codigo }}"
+                >
+                    {{ resultado.nombre }}
+                </a>
+
+            </p>
+
+            <p>
+
+                La búsqueda fue realizada
+                utilizando búsqueda binaria.
+
+            </p>
+
+        </div>
+
+
+    {% elif request.method == "POST" %}
+
+        <div class="no-encontrado">
+
+            <h2>
+                País no encontrado
+            </h2>
+
+            <p>
+                No encontramos ese país
+                en la lista de Europa.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- ========================================= -->
+    <!-- LISTA DE PAÍSES -->
+    <!-- ========================================= -->
+
+    <h2>
+        Lista de países
+    </h2>
+
+
+    {% if paises %}
+
+        {% for pais in paises %}
+
+            <div class="pais">
+
+                {{ loop.index }}.
+
+                <!--
+                    El nombre del país ahora es
+                    un vínculo.
+                -->
+
+                <a
+                    href="/pais/{{ pais.codigo }}"
+                >
+
+                    {{ pais.nombre }}
+
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <p>
+            No se pudieron obtener
+            los países desde la API.
+        </p>
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>
